@@ -68,3 +68,28 @@ stages:
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
+
+- stage: Deploy
+  jobs:
+  - deployment: TestCluster
+    pool:
+      vmImage: 'windows-2019'
+    environment: dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              artifactName: 'drop'
+              targetPath: '$(System.ArtifactsDirectory)'
+          - task: ServiceFabricDeploy@1
+            displayName: 'Deploy Service Fabric Application'
+            inputs:
+              applicationPackagePath: '$(System.ArtifactsDirectory)/drop/pkg'
+              serviceConnectionName: PS1
+              publishProfilePath: '$(System.ArtifactsDirectory)/drop/PublishProfiles/Cloud.xml'
+              applicationParameterPath: '$(System.ArtifactsDirectory)/drop/ApplicationParameters/Cloud.xml'
+              compressPackage: true
+
