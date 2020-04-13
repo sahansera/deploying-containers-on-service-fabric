@@ -17,6 +17,8 @@
     <Policies>
       <ContainerHostPolicies CodePackageRef="Code">
         <!-- See https://aka.ms/I7z0p9 for how to encrypt your repository password -->
+        <RepositoryCredentials AccountName="" Password="" PasswordEncrypted="false"/>
+
         <PortBinding ContainerPort="80" EndpointRef="WebShopApiTypeEndpoint" />
       </ContainerHostPolicies>
     </Policies>
@@ -26,6 +28,8 @@
     <ConfigOverrides />
     <Policies>
       <ContainerHostPolicies CodePackageRef="Code">
+        <RepositoryCredentials AccountName="" Password="" PasswordEncrypted="false"/>
+        
         <PortBinding ContainerPort="80" EndpointRef="WebShopClientTypeEndpoint" />
       </ContainerHostPolicies>
     </Policies>
